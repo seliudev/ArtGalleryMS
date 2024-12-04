@@ -2,6 +2,7 @@
 using BLL.Models;
 using BLL.Services.Bases;
 using Microsoft.AspNetCore.Mvc.Controllers;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,7 +29,7 @@ namespace BLL.Services
         public ServiceBase Create(Artists record)
         {
             if (_db.Artists.Any(a => a.Name.ToUpper() == record.Name.ToUpper().Trim()))
-                return Error("Species with the same name exists!");
+                return Error("Artists with the same name exists!");
             record.Name = record.Name?.Trim();
             _db.Artists.Add(record);
             _db.SaveChanges(); //commit to database
@@ -37,7 +38,12 @@ namespace BLL.Services
 
         public ServiceBase Delete(int id)
         {
-            throw new NotImplementedException();
+            var entity = _db.Artists.Include(a => a.Artworks).SingleOrDefault(a => a.Id == id); //eager loading
+            if (entity == null)
+                return Error("Artists can't be found!");
+            if( entity.Artworks.Any()) //Count > 0
+                return Error("Artists has relational artworks!");
+
         }
 
         public IQueryable<ArtistsModel> Query()
@@ -47,7 +53,15 @@ namespace BLL.Services
 
         public ServiceBase Update(Artists record)
         {
-            throw new NotImplementedException();
+            if (_db.Artists.Any(a => a.Id != record.Id && a.Name.ToUpper() == record.Name.ToUpper().Trim()))
+                return Error("Artists with the same name exists!");
+            var entity = _db.Artists.SingleOrDefault(a => a.Id == record.Id);
+            if(entity == null)
+                return Error("Artists can't be found!");
+            entity.Name = record.Name?.Trim();
+            _db.Artists.Update(entity);
+            _db.SaveChanges(); //commit to database
+            return Success("Artists created successfully.");
         }
     }
 }
