@@ -14,7 +14,6 @@ namespace BLL.Services
     public interface IArtistsService
     {
         public IQueryable<ArtistsModel> Query();
-
         public ServiceBase Create(Artists record);
         public ServiceBase Update(Artists record);
         public ServiceBase Delete(int id);
