@@ -9,14 +9,15 @@ using System.Threading.Tasks;
 
 namespace BLL.Services
 {
-    public interface IArtworksService
-    {
-        ////Way 1:
-        //public IQueryable<ArtworksModel> Query();
-        //public ServiceBase Create(Artworks record);
-        //public ServiceBase Update(Artworks record);
-        //public ServiceBase Delete(int id);
-    }
+    //Way 1:
+    //public interface IArtworksService
+    //{
+    //    //public IQueryable<ArtworksModel> Query();
+    //    //public ServiceBase Create(Artworks record);
+    //    //public ServiceBase Update(Artworks record);
+    //    //public ServiceBase Delete(int id);
+    //}
+    //public class ArtworksService : ServiceBase, IArtworksService
 
     //Way 2:
     public class ArtworksService : ServiceBase, IService<Artworks, ArtworksModel>
@@ -27,7 +28,10 @@ namespace BLL.Services
 
         public ServiceBase Create(Artworks record)
         {
-            throw new NotImplementedException();
+            if (_db.Artworks.Any(w => w.Title.ToLower() == record.Title.ToLower().Trim() && w.Description.ToLower() == record.Description.ToLower()))
+                return Error("Artworks with the same name and description exist!");
+            record.Title = record.Title?.Trim();
+            _db.Artworks.Add(record);
         }
 
         public ServiceBase Delete(int id)
@@ -37,7 +41,7 @@ namespace BLL.Services
 
         public IQueryable<ArtworksModel> Query()
         {
-            throw new NotImplementedException();
+            return _db.Artworks.OrderByDescending(w => w.CreationDate).Select(w => new ArtworksModel() { Record = w });
         }
 
         public ServiceBase Update(Artworks record)
