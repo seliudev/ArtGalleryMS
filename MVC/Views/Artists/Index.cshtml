@@ -36,6 +36,9 @@
                 <thead class="table-secondary">
                     <tr>
                         <th>
+                            @* HTML: *@
+                            @* Name *@
+                            @* HTML Helper *@
                             @Html.DisplayNameFor(model => model.Name)
                         </th>
                         <th>
@@ -72,6 +75,9 @@
 						        @Html.DisplayFor(modelItem => item.IsRetired)
 					        </td>
 					        <td class="text-end w-25">
+                                @* HTML: *@
+                                <a href="/Artists/Details/1">Details</a>
+                                @* Tag Helper: *@
 						        <a asp-action="Details" asp-route-id="@item.Record.Id">Details</a>&nbsp;|&nbsp;
 						        <a asp-action="Edit" asp-route-id="@item.Record.Id">Edit</a>&nbsp;|&nbsp;
 						        <a asp-action="Delete" asp-route-id="@item.Record.Id">Delete</a>

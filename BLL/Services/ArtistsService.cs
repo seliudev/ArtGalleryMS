@@ -43,7 +43,9 @@ namespace BLL.Services
                 return Error("Artists can't be found!");
             if( entity.Artworks.Any()) //Count > 0
                 return Error("Artists has relational artworks!");
-
+            _db.Artists.Remove(entity);
+            _db.SaveChanges(); //commit to database
+            return Success("Artists deleted successfully.");
         }
 
         public IQueryable<ArtistsModel> Query()
@@ -61,7 +63,7 @@ namespace BLL.Services
             entity.Name = record.Name?.Trim();
             _db.Artists.Update(entity);
             _db.SaveChanges(); //commit to database
-            return Success("Artists created successfully.");
+            return Success("Artists updated successfully.");
         }
     }
 }

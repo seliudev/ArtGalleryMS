@@ -11,5 +11,10 @@ namespace BLL.Models
     {
         public Artists Record { get; set; }
         public string Name => Record.Name;
+        public string Surname => Record.Surname;
+        public string Email => Record.Email;
+        public string Biography => Record.Biography;
+        public bool IsRetired => Record.IsRetired;
+
     }
 }

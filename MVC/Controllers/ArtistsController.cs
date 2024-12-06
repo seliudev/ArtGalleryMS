@@ -4,6 +4,7 @@ using BLL.Controllers.Bases;
 using BLL.Services.Bases;
 using BLL.Models;
 using BLL.DAL;
+using BLL.Services;
 
 // Generated from Custom Template.
 
@@ -12,13 +13,13 @@ namespace MVC.Controllers
     public class ArtistsController : MvcController
     {
         // Service injections:
-        private readonly IService<Artists, ArtistsModel> _artistsService;
+        private readonly IArtistsService _artistsService;
 
         /* Can be uncommented and used for many to many relationships. {Entity} may be replaced with the related entiy name in the controller and views. */
         //private readonly IService<{Entity}, {Entity}Model> _{Entity}Service;
 
         public ArtistsController(
-			IService<Artists, ArtistsModel> artistsService
+			IArtistsService artistsService
 
             /* Can be uncommented and used for many to many relationships. {Entity} may be replaced with the related entiy name in the controller and views. */
             //, Service<{Entity}, {Entity}Model> {Entity}Service
